@@ -203,4 +203,13 @@ class RectUpScreenView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : RectUpScreenView {
+            val view : RectUpScreenView = RectUpScreenView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
