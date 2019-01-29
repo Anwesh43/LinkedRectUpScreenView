@@ -26,3 +26,26 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
 fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.inverse() + scaleFactor() * b.inverse()
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
+
+fun Canvas.drawRect(i : Int, w : Float, h : Float, scale : Float, paint : Paint) {
+    save()
+    translate((i % 2) * w, (i / 2) * h)
+    drawRect(RectF(0f, 0f, w * (1 - scale), h * (1 - scale)), paint )
+    restore()
+}
+
+fun Canvas.drawRUSNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val wSize : Float = w / sizeFactor
+    val hSize : Float = h / sizeFactor
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    paint.color = Color.parseColor(colors[i])
+    save()
+    translate(0f, h * (1 - sc1))
+    for (j in (0..rects - 1)) {
+        drawRect(j, wSize, hSize, sc2.divideScale(0, 2), paint)
+    }
+    restore()
+}
