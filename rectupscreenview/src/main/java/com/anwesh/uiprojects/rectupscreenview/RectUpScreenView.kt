@@ -180,4 +180,26 @@ class RectUpScreenView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : RectUpScreenView) {
+
+        private val animator : Animator = Animator(view)
+        private val rus : RectUpScreen = RectUpScreen(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            rus.draw(canvas, paint)
+            animator.animate {
+                rus.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            rus.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
